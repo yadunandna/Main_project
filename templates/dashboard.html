@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>📊 Wellness Dashboard</h1>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/chat">Wellness Coach</a>
+        </nav>
+    </header>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <h3>Total Entries</h3>
+            <p>{{ total_entries }}</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Burnout Risk</h3>
+            <p>{{ burnout_risk }}</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h2>Stress Trend</h2>
+
+        <canvas id="stressChart"></canvas>
+    </div>
+
+</div>
+
+<script>
+
+const trendData = {{ stress_trend | tojson }};
+
+const labels = trendData.map(item => item.date);
+const scores = trendData.map(item => item.score);
+
+const ctx = document.getElementById('stressChart');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Stress Score',
+            data: scores,
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamPulse AI</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>🧠 ExamPulse AI</h1>
+        <p>
+            AI Mental Wellness Tracker for Competitive Exam Students
+        </p>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/chat">Wellness Coach</a>
+        </nav>
+    </header>
+
+    {% if error %}
+    <div class="alert error">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    {% if success %}
+    <div class="alert success">
+        {{ success }}
+    </div>
+    {% endif %}
+
+    <div class="card">
+
+        <h2>Daily Check-In</h2>
+
+        <form action="/analyze" method="POST">
+
+            <label for="journal">
+                How was your day?
+            </label>
+
+            <textarea
+                id="journal"
+                name="journal"
+                required
+                placeholder="Example: I studied for 8 hours today but felt stressed about mock tests..."
+            ></textarea>
+
+            <button type="submit">
+                Analyze My Journal
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if result %}
+
+    <div class="card analysis-card">
+
+        <h2>AI Analysis</h2>
+
+        <div class="analysis-output">
+            <pre>{{ result }}</pre>
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    {% if latest_analysis %}
+
+    <div class="card">
+
+        <h2>Previous Analysis</h2>
+
+        <pre>{{ latest_analysis }}</pre>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

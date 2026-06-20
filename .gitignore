@@ -1,0 +1,73 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+
+myenv/
+venv/
+env/
+.venv/
+
+# Environment Variables
+
+.env
+
+# VS Code
+
+.vscode/
+
+# PyCharm
+
+.idea/
+
+# Test Cache
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build Files
+
+build/
+dist/
+*.egg-info/
+
+# Logs
+
+*.log
+
+# OS Files
+
+.DS_Store
+Thumbs.db
+
+# Vercel
+
+.vercel/
+
+# Temporary Files
+
+*.tmp
+*.bak
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+# Python Cache
+
+*.pyo
+*.pyd
+
+# Local Database Files
+
+*.sqlite3
+
+# Optional: Ignore runtime journal data
+
+# Uncomment if you don't want user data committed
+
+# data/journals.json
