@@ -84,11 +84,36 @@ The dashboard helps students recognize recurring patterns over time.
 
 ---
 
+## Architecture
+
+```text
+Student
+   │
+   ▼
+Daily Check-In / Wellness Coach
+   │
+   ▼
+FastAPI Backend
+   │
+   ├── Gemini AI
+   │      ├── Journal Analysis
+   │      ├── Stress Detection
+   │      └── Wellness Coaching
+   │
+   └── Supabase PostgreSQL
+          └── Journal History Storage
+
+   ▼
+Dashboard & Insights
+```
+
+---
+
 ## AI Usage
 
 This project uses Google's Gemini API.
 
-Model:
+### Model
 
 * Gemini 2.5 Flash
 
@@ -119,9 +144,9 @@ AI is responsible for:
 
 * Google Gemini API
 
-### Storage
+### Database
 
-* JSON-based local storage
+* Supabase PostgreSQL
 
 ### Deployment
 
@@ -139,6 +164,7 @@ Mental_Wellness_Tracker/
 │   ├── main.py
 │   ├── ai.py
 │   ├── prompts.py
+│   ├── database.py
 │   ├── storage.py
 │   └── utils.py
 │
@@ -151,15 +177,10 @@ Mental_Wellness_Tracker/
 │   ├── style.css
 │   └── app.js
 │
-├── data/
-│   └── journals.json
-│
-├── tests/
-│   └── test_utils.py
-│
 ├── requirements.txt
 ├── vercel.json
-└── README.md
+├── README.md
+└── .env.example
 ```
 
 ---
@@ -179,7 +200,7 @@ cd Mental_Wellness_Tracker
 python -m venv myenv
 ```
 
-Activate:
+### Activate Virtual Environment
 
 Windows
 
@@ -200,7 +221,26 @@ pip install -r requirements.txt
 Create a `.env` file:
 
 ```env
-GEMINI_API_KEY=YOUR_API_KEY
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+
+SUPABASE_URL=YOUR_SUPABASE_PROJECT_URL
+
+SUPABASE_KEY=YOUR_SUPABASE_ANON_KEY
+```
+
+---
+
+## Supabase Setup
+
+Create a table named:
+
+```sql
+create table journals (
+    id bigint generated always as identity primary key,
+    created_at timestamp default now(),
+    journal text,
+    analysis text
+);
 ```
 
 ---
@@ -211,7 +251,7 @@ GEMINI_API_KEY=YOUR_API_KEY
 python -m app.main
 ```
 
-Application runs on:
+Application runs at:
 
 ```text
 http://127.0.0.1:8000
@@ -259,36 +299,119 @@ http://127.0.0.1:8000
 
 ---
 
+## Sample Test Cases
+
+### Daily Check-In
+
+#### Test Case 1 – Academic Stress
+
+```text
+I studied for 10 hours today but my mock test score was lower than expected. I keep comparing myself to my friends and I am worried about my JEE rank.
+```
+
+#### Test Case 2 – Burnout Risk
+
+```text
+I have been studying 12 hours every day for the last week. I sleep only 5 hours and feel exhausted. I cannot concentrate anymore.
+```
+
+#### Test Case 3 – Positive Day
+
+```text
+Today was productive. I completed my study targets and felt confident during practice tests. I also took breaks and exercised.
+```
+
+#### Test Case 4 – Exam Anxiety
+
+```text
+My exam is next month and I feel nervous all the time. Even when I study, I worry that I will forget everything during the exam.
+```
+
+#### Test Case 5 – Family Pressure
+
+```text
+My parents keep asking about my marks and college admissions. I feel pressured and stressed whenever these conversations happen.
+```
+
+---
+
+### Wellness Coach
+
+#### Test Case 1
+
+```text
+How can I stop comparing myself with my friends?
+```
+
+#### Test Case 2
+
+```text
+I am scared that I will fail my exam.
+```
+
+#### Test Case 3
+
+```text
+How can I improve focus during long study sessions?
+```
+
+#### Test Case 4
+
+```text
+Can you give me a quick mindfulness exercise?
+```
+
+#### Test Case 5
+
+```text
+How do I recover from burnout during exam preparation?
+```
+
+---
+
 ## Security Considerations
 
 * API keys stored using environment variables
 * No hardcoded secrets
 * Input validation on journal submissions
-* Local JSON storage without sensitive credential exposure
+* Data stored securely in Supabase PostgreSQL
+* Database credentials managed through environment variables
 
 ---
 
 ## Assumptions
 
-* Users are students preparing for academic examinations.
-* Journal entries are voluntarily provided.
-* AI responses are informational and supportive.
-* The platform does not provide medical diagnosis or professional mental health treatment.
+* Users are students preparing for academic examinations
+* Journal entries are voluntarily provided
+* AI responses are informational and supportive
+* The platform does not provide medical diagnosis or professional mental health treatment
 
 ---
 
 ## Future Improvements
 
-* User authentication
-* Cloud database integration
-* Personalized wellness scores
-* Weekly AI wellness reports
-* Trigger frequency analytics
-* Email wellness summaries
-* Advanced burnout prediction
+* User Authentication
+* Personalized Wellness Scores
+* Weekly AI Wellness Reports
+* Trigger Frequency Analytics
+* Email Wellness Summaries
+* Advanced Burnout Prediction
+* Mobile Application Support
+
+---
+
+## Deployment
+
+The application is deployed on Vercel and uses:
+
+* FastAPI Backend
+* Gemini AI API
+* Supabase PostgreSQL Database
 
 ---
 
 ## Conclusion
 
-ExamPulse AI transforms traditional journaling into an intelligent wellness companion that helps students understand their emotional patterns, identify hidden stress triggers, and maintain healthier study habits during high-pressure exam preparation.
+ExamPulse AI is an AI-powered student wellness platform that combines Gemini AI, FastAPI, Supabase PostgreSQL, and Vercel deployment to help students identify hidden stress triggers, monitor burnout risk, and receive personalized wellness guidance.
+
+By transforming simple journal entries into actionable insights, the platform supports healthier study habits and improved emotional well-being during high-pressure exam preparation.

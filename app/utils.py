@@ -61,8 +61,6 @@ def calculate_burnout_risk(entries):
         return "Medium"
 
     return "Low"
-
-
 def get_stress_trend(entries):
 
     trend = []
@@ -73,16 +71,20 @@ def get_stress_trend(entries):
             entry.get("analysis", "")
         )
 
+        date_value = (
+            entry.get("created_at")
+            or entry.get("date")
+            or ""
+        )
+
         trend.append(
             {
-                "date": entry["date"][:10],
+                "date": str(date_value)[:10],
                 "score": score
             }
         )
 
     return trend
-
-
 def detect_common_triggers(entries):
 
     triggers = {
